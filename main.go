@@ -108,10 +108,12 @@ func (m model) View() string {
 func main() {
 	basepath := "~/.config/tmux/spaces/./"
 	items := []list.Item{
+		item{title: ".dots", desc: "Time sink", script: basepath + "dots.sh"},
 		item{title: "typefeel", desc: "Forever project", script: basepath + "typefeel.sh"},
+		item{title: "k8s", desc: "Really just a multi pane layout", script: basepath + "courses.sh"},
 		item{title: "KTC Frontend", desc: "Other forever project", script: basepath + "ktc_frontend.sh"},
 		item{title: "Courses", desc: "Columbia Business School Course Badalog", script: basepath + "courses.sh"},
-		item{title: "k8s", desc: "Really just a multi pane layout", script: basepath + "courses.sh"},
+		item{title: "Aquila", desc: "Powered by Athena", script: basepath + "aquila.sh"},
 	}
 
 	m := model{list: list.New(items, list.NewDefaultDelegate(), 0, 0)}
