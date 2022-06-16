@@ -18,12 +18,12 @@ var (
 )
 
 type item struct {
-	title, desc, path string
+	title, desc, script string
 }
 
 func (i item) Title() string       { return i.title }
 func (i item) Description() string { return i.desc }
-func (i item) FilterValue() string { return i.path }
+func (i item) FilterValue() string { return i.script }
 
 type itemDelegate struct{}
 
@@ -84,12 +84,10 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "enter":
 			i, ok := m.list.SelectedItem().(item)
 
-			fullCmd := "ln -sf " + i.path + " ~/.tmux/resurrect/last"
-			toShell(fullCmd)
-			toShell("tmux")
+			toShell(i.script)
 
 			if ok {
-				m.choice = string(i.path)
+				m.choice = string(i.script)
 			}
 			return m, tea.Quit
 		}
@@ -108,10 +106,12 @@ func (m model) View() string {
 }
 
 func main() {
+	basepath := "~/.config/tmux/spaces/./"
 	items := []list.Item{
-		item{title: "typefeel", desc: "Forever project", path: "~/.tmux/resurrect/typefeel.txt"},
-		item{title: "KTC Frontend", desc: "My other forever project", path: "~/.tmux/resurrect/ktc_frontend.txt"},
-		item{title: "Courses", desc: "Columbia Business School Course Badalog", path: "~/.tmux/resurrect/courses.txt"},
+		item{title: "typefeel", desc: "Forever project", script: basepath + "typefeel.sh"},
+		item{title: "KTC Frontend", desc: "Other forever project", script: basepath + "ktc_frontend.sh"},
+		item{title: "Courses", desc: "Columbia Business School Course Badalog", script: basepath + "courses.sh"},
+		item{title: "k8s", desc: "Really just a multi pane layout", script: basepath + "courses.sh"},
 	}
 
 	m := model{list: list.New(items, list.NewDefaultDelegate(), 0, 0)}
